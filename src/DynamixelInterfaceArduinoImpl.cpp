@@ -124,44 +124,44 @@ void DynamixelInterfaceImpl<T>::receivePacket(DynamixelPacket &aPacket, uint8_t 
     aPacket.mDataLength = 255;
     if (mStream.readBytes(buffer, 2) < 2)
     {
-        aPacket.mStatus = DYN_STATUS_COM_ERROR | DYN_STATUS_TIMEOUT;
+        aPacket.mStatus = DynStatus::COM_ERROR | DynStatus::TIMEOUT;
         return;
     }
     if (buffer[0] != 255 || buffer[1] != 255)
     {
-        aPacket.mStatus = DYN_STATUS_COM_ERROR;
+        aPacket.mStatus = DynStatus::COM_ERROR;
         return;
     }
     if (mStream.readBytes(buffer, 3) < 3)
     {
-        aPacket.mStatus = DYN_STATUS_COM_ERROR | DYN_STATUS_TIMEOUT;
+        aPacket.mStatus = DynStatus::COM_ERROR | DynStatus::TIMEOUT;
         return;
     }
     if (aPacket.mID != buffer[0])
     {
-        aPacket.mStatus = DYN_STATUS_COM_ERROR;
+        aPacket.mStatus = DynStatus::COM_ERROR;
         return;
     }
     aPacket.mLength = buffer[1];
     if ((aPacket.mLength - 2) != answerSize)
     {
-        aPacket.mStatus = DYN_STATUS_COM_ERROR;
+        aPacket.mStatus = DynStatus::COM_ERROR;
         return;
     }
     aPacket.mStatus = buffer[2];
     if (aPacket.mLength > 2 && (int)mStream.readBytes(reinterpret_cast<char *>(aPacket.mData), aPacket.mLength - 2) < (aPacket.mLength - 2))
     {
-        aPacket.mStatus = DYN_STATUS_COM_ERROR | DYN_STATUS_TIMEOUT;
+        aPacket.mStatus = DynStatus::COM_ERROR | DynStatus::TIMEOUT;
         return;
     }
     if (mStream.readBytes(reinterpret_cast<char *>(&(aPacket.mCheckSum)), 1) < 1)
     {
-        aPacket.mStatus = DYN_STATUS_COM_ERROR | DYN_STATUS_TIMEOUT;
+        aPacket.mStatus = DynStatus::COM_ERROR | DynStatus::TIMEOUT;
         return;
     }
     if (aPacket.checkSum() != aPacket.mCheckSum)
     {
-        aPacket.mStatus = DYN_STATUS_COM_ERROR | DYN_STATUS_CHECKSUM_ERROR;
+        aPacket.mStatus = DynStatus::COM_ERROR | DynStatus::CHECKSUM_ERROR;
     }
 }
 

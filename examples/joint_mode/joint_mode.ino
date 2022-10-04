@@ -3,9 +3,9 @@
 #include "DynamixelMotor.h"
 
 // id of the motor
-const uint8_t id=1;
+const uint8_t id = 1;
 // speed, between 0 and 1023
-int16_t speed=512;
+int16_t speed = 512;
 // communication baudrate
 const long unsigned int baudrate = 1000000;
 
@@ -16,21 +16,22 @@ HardwareDynamixelInterface interface(Serial);
 DynamixelMotor motor(interface, id);
 
 void setup()
-{ 
+{
   interface.begin(baudrate);
   delay(100);
-  
+
   // check if we can communicate with the motor
   // if not, we turn the led on and stop here
-  uint8_t status=motor.init();
-  if(status!=DYN_STATUS_OK)
+  uint8_t status = motor.init();
+  if (status != DynStatus::OK)
   {
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, HIGH);
-    while(1);
+    while (1)
+      ;
   }
 
-  motor.enableTorque();  
+  motor.enableTorque();
 
   // set to joint mode, with a 180° angle range
   // see robotis doc to compute angle values
@@ -38,7 +39,7 @@ void setup()
   motor.speed(speed);
 }
 
-void loop() 
+void loop()
 {
   // go to middle position
   motor.goalPosition(512);
@@ -56,4 +57,3 @@ void loop()
   motor.goalPosition(358);
   delay(500);
 }
-

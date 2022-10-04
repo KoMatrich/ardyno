@@ -17,29 +17,30 @@
 HardwareDynamixelInterface interface(Serial);
 
 // Use this for hardware serial with tristate buffer
-//HardwareDynamixelInterface interface(Serial, DIR_PIN);
+// HardwareDynamixelInterface interface(Serial, DIR_PIN);
 
 // Use this for software serial without tristate buffer
-//SoftwareDynamixelInterface interface(SOFT_RX_PIN, SOFT_TX_PIN);
+// SoftwareDynamixelInterface interface(SOFT_RX_PIN, SOFT_TX_PIN);
 
 // Use this for software serial with tristate buffer
-//SoftwareDynamixelInterface interface(SOFT_RX_PIN, SOFT_TX_PIN, DIR_PIN);
+// SoftwareDynamixelInterface interface(SOFT_RX_PIN, SOFT_TX_PIN, DIR_PIN);
 
 const long unsigned int baudrate = 1000000;
 
 // Use broadcast address to affect all connected motors
 DynamixelDevice broadcast_device(interface, BROADCAST_ID);
 
-uint8_t led_state=true;
+uint8_t led_state = true;
 
-void setup() {
+void setup()
+{
   interface.begin(1000000);
   delay(100);
 }
 
-void loop() {
-  broadcast_device.write(DYN_ADDRESS_LED, led_state);
-  led_state=!led_state;
+void loop()
+{
+  broadcast_device.write(DynMotorAddress::LED, led_state);
+  led_state = !led_state;
   delay(1000);
 }
-
