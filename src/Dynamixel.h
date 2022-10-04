@@ -144,7 +144,7 @@ enum DynMotorAddress
     CW_LIMIT = 0x06,
     /** \brief Counter clockwise angle limit, uint16_t , writable */
     CCW_LIMIT = 0x08,
-    /** \brief Maximum torque, uint16_t , writable */
+    /** \brief Maximum torque that will trigger alarm! , uint16_t , writable */
     MAX_TORQUE = 0x0E,
     /** \brief Enable torque, uint8_t , writable */
     ENABLE_TORQUE = 0x18,
@@ -162,12 +162,58 @@ enum DynMotorAddress
     GOAL_POSITION = 0x1E,
     /** \brief Goal speed, uint16_t , writable */
     GOAL_SPEED = 0x20,
-
+    /** \brief Maximum torque that will not trigger alarm! must be smaller than MAX_TORQUE , uint16_t , writable */
     TORQUE_LIMIT = 0x22,
     /** \brief Current position, uint16_t , readable */
     CURRENT_POSITION = 0x24,
     /** \brief Nonzero if any movement, uint8_t, readable */
     MOVING = 0x2E
+};
+
+enum DynMotorAdditionalAddress
+{
+    /** \brief Temperature threshold that will trigger alarm! , uint16_t , writable */
+    TEMP_LIMIT = 0x0B,
+    /** \brief Minimal voltage threshold that will trigger alarm! , uint16_t , writable */
+    MIN_VOLTAGE_LIMIT = 0x0C,
+    /** \brief Maximal voltage threshold that will trigger alarm! , uint16_t , writable */
+    MAX_VOLTAGE_LIMIT = 0x0D,
+    /** \brief Alarm led state , uint8_t , writable
+     *
+     *  7.bit Not used
+     *  6.bit Instruction error
+     *  5.bit Overload error
+     *  4.bit CheckSum error
+     *  3.bit Range error
+     *  2.bit Overheating error
+     *  1.bit Angle Limit error
+     *  0.bit Input voltage error
+     */
+    ALARM_LED = 0x11,
+    /** \brief Shutdown reason , uint8_t , writable
+     *
+     *  7.bit Not used
+     *  6.bit Instruction error
+     *  5.bit Overload error
+     *  4.bit CheckSum error
+     *  3.bit Range error
+     *  2.bit Overheating error
+     *  1.bit Angle Limit error
+     *  0.bit Input voltage error
+     */
+    SHUTDOWN = 0x12,
+    /** \brief Current speed of servo , uint16_t , writable */
+    CURRENT_SPEED = 0x26,
+    /** \brief Current load/torque of servo , uint16_t , writable */
+    CURRENT_TORQUE = 0x28,
+    /** \brief Current input voltage , uint16_t , writable */
+    CURRENT_VOLTAGE = 0x2A,
+    /** \brief Current temperature , uint16_t , writable */
+    CURRENT_TEMP = 0x2B,
+    /** \brief State of EEPROM lock* , bool , writable */
+    EEPROM_LOCK = 0x2F,
+    /** \brief Minimum current , uint16_t , writable */
+    MIN_CURRENT = 0x30
 };
 
 /**
